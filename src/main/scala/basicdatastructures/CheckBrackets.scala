@@ -24,10 +24,10 @@ object CheckBrackets {
     expression match {
       case Nil =>
         if (stack.isEmpty) 0 // Success
-        else stack.head.pos  // Failure: bracket(s) left in the stack
+        else stack.head.pos  // Failure: bracket(s) left on the stack
       case c :: tail if isClosing(c) =>
         if (stack.isEmpty || stack.head.bracket != openingFor(c)) pos // Failure: closing bracket found, but no corresponding opening on the stack
-        else validate(tail, stack.tail, pos + 1)  // Continue: stack head matches current closing bracket
+        else validate(tail, stack.tail, pos + 1)  // Continue: remove stack head that matches current closing bracket
       case c :: tail if isOpening(c) =>
         validate(tail, StackBracket(c,pos) +: stack, pos + 1) // Continue: Opening bracket found, put it on the stack
       case _ :: tail =>
